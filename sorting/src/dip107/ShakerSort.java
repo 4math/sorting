@@ -8,23 +8,23 @@ public class ShakerSort {
     }
 
     public static void sort(int[] data) {
-        int l = 0;
-        int r = data.length - 1;
+        int left = 0;
+        int right = data.length - 1;
 
-        while(l < r) {
-            for(int i = l; i < r; i++) {
+        while(left < right) {
+            for(int i = left; i < right; i++) {
                 if (data[i] > data[i + 1]) {
                     swap(data, i, i + 1);
                 }
             }
-            r--;
+            right--;
 
-            for(int i = r; i > l; i--) {
+            for(int i = right; i > left; i--) {
                 if (data[i] < data[i - 1]) {
                     swap(data, i, i - 1);
                 }
             }
-            l++;
+            left++;
         }
     }
 }
