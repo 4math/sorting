@@ -1,7 +1,5 @@
 package dip107;
 
-import javax.sound.midi.Soundbank;
-import java.net.SocketTimeoutException;
 import java.util.Scanner;
 
 public class Main {
