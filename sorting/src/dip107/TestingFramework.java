@@ -8,29 +8,34 @@ interface Test {
 
 public class TestingFramework {
 
-    //    public final int seed = 5614592;
     public final int[] sizes = {
             10,
             100,
             1000,
-//            10000,
-//            100000,
-//            1000000,
+            10000,
+            100000,
+            1000000,
     };
-    public final int[][][][] minMaxTable;
-    public final int[][][][] descendingTable;
-    public final int[][][][] almostSortedTable;
-    public final int iterationCount = 5;
-    public final int[] seeds;
-    public double[][] timeResults;
-    public final Test[] sortingAlgorithms;
 
-    TestingFramework(Test[] sortingAlgorithms) {
+    // first is the amount of sorting algorithms
+    // second is the length of sizes
+    // third is an iteration count
+    // fourth is the size of an array
+    private final int[][][][] minMaxTable;
+    private final int[][][][] descendingTable;
+    private final int[][][][] almostSortedTable;
+    private final int[][][][][] table;
+    private final int iterationCount = 5;
+    private final int[] seeds;
+    private final double[][][] timeResults;
+    private final Test[] sortingAlgorithms;
+
+    TestingFramework(Test[] sortingAlgorithms, int seed) {
 
         this.sortingAlgorithms = sortingAlgorithms;
 
         // It is possible to control the generator
-        Random random = new Random(100);
+        Random random = new Random(seed);
 
         seeds = new int[iterationCount];
         for (int i = 0; i < seeds.length; i++) {
@@ -41,11 +46,59 @@ public class TestingFramework {
         minMaxTable = new int[sortingAlgorithms.length][sizes.length][iterationCount][];
         descendingTable = new int[sortingAlgorithms.length][sizes.length][iterationCount][];
         almostSortedTable = new int[sortingAlgorithms.length][sizes.length][iterationCount][];
+        table = new int[][][][][]{minMaxTable, descendingTable, almostSortedTable};
 
-        timeResults = new double[sizes.length][iterationCount];
+        timeResults = new double[sortingAlgorithms.length][3 * sizes.length][iterationCount];
     }
 
-    public void createMinMaxTable() {
+    public void test() {
+        createMinMaxTable();
+        createDescendingTable();
+        createAlmostSortedTable();
+
+        for (int i = 0; i < iterationCount; i++) {
+            sortingAlgorithms[0].test(table[0][0][i][0], 1);
+        }
+
+        int tableOffset;
+
+        for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
+
+            for (int col = 0; col < iterationCount; col++) {
+
+                tableOffset = 0;
+                for (int tab = 0; tab < table.length; tab++) {
+
+                    for (int row = 0; row < sizes.length; row++) {
+                        long start = System.nanoTime();
+                        sortingAlgorithms[alg].test(table[tab][alg][row][col], 1);
+                        long end = System.nanoTime();
+
+                        double timeElapsed = (end - start) / 1000.0;
+                        timeResults[alg][tableOffset + row][col] = timeElapsed;
+                    }
+
+                    tableOffset += sizes.length;
+                }
+            }
+        }
+    }
+
+    public void printTimeResults() {
+        int n = sizes.length;
+        for (int row = 0; row < 3 * n; row++) {
+            for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
+                for (int col = 0; col < iterationCount; col++) {
+                    System.out.printf("%10.2f ", timeResults[alg][row][col]);
+                }
+                System.out.print("\t\t");
+            }
+            System.out.println();
+            if (row % n == n - 1) System.out.println();
+        }
+    }
+
+    private void createMinMaxTable() {
         // first of all, iterate through rows (one seed), then through columns, creating an array with specific size
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
 
@@ -67,7 +120,7 @@ public class TestingFramework {
         }
     }
 
-    public void createDescendingTable() {
+    private void createDescendingTable() {
         // first of all, iterate through rows (one seed), then through columns, creating an array with specific size
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
 
@@ -93,7 +146,7 @@ public class TestingFramework {
     }
 
 
-    public void createAlmostSortedTable() {
+    private void createAlmostSortedTable() {
         // first of all, iterate through rows (one seed), then through columns, creating an array with specific size
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
 
@@ -114,7 +167,6 @@ public class TestingFramework {
 
                     int changeCount = random.nextInt(almostSortedTable[alg][row][col].length / 2) + 2;
 
-                    System.out.println("Change count " + changeCount);
                     for (int i = 0; i < changeCount; i++) {
                         int number = random.nextInt();
                         int index = random.nextInt(almostSortedTable[alg][row][col].length);
@@ -126,21 +178,5 @@ public class TestingFramework {
         }
 
     }
-
-    public void printTable() {
-//        for (int row = 0; row < sizes.length; row++) {
-//
-//            for (int col = 0; col < iterationCount; col++) {
-//
-//                for (int a: minMaxTable[row][col]) {
-//                    System.out.printf("%2d ", a);
-//                }
-//                System.out.print("\t\t");
-//            }
-//            System.out.println();
-//        }
-    }
-
-
 
 }
