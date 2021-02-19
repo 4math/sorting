@@ -15,6 +15,7 @@ public class TestingFramework {
             10000,
             100000,
             1000000,
+            10000000,
     };
 
     // first is the amount of sorting algorithms
