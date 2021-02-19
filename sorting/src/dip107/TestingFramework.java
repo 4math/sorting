@@ -27,7 +27,7 @@ public class TestingFramework {
     private final int[][][][] almostSortedTable;
     private final int[][][][][] table;
     private final int iterationCount = 5;
-    private final int[] seeds;
+    private final int[] seeds; // seed amount is equal to iterationCount
     private final double[][][] timeResults;
     private final Test[] sortingAlgorithms;
 
@@ -49,6 +49,9 @@ public class TestingFramework {
         almostSortedTable = new int[sortingAlgorithms.length][sizes.length][iterationCount][];
         table = new int[][][][][]{minMaxTable, descendingTable, almostSortedTable};
 
+        // first - sorting algorithm
+        // second row of a table
+        // third - column of a table
         timeResults = new double[sortingAlgorithms.length][3 * sizes.length][iterationCount];
     }
 
@@ -58,7 +61,8 @@ public class TestingFramework {
         createAlmostSortedTable();
 
         for (int i = 0; i < iterationCount; i++) {
-            sortingAlgorithms[0].test(table[0][0][i][0], 1);
+            sortingAlgorithms[0].test(table[0][0][0][i], 1);
+            sortingAlgorithms[0].test(table[0][0][0][i], 1);
         }
 
         int tableOffset;
