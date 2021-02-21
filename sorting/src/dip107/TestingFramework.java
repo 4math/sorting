@@ -2,13 +2,16 @@ package dip107;
 
 import java.util.Random;
 
-interface Test {
-    void test(int[] arr, int order);
+interface SortingAlgorithm {
+    //order:
+    // 1 - ascending order
+    // -1 or any other number - descending order
+    void sort(int[] arr, int order);
 }
 
 public class TestingFramework {
 
-    public final int[] sizes = {
+    private final int[] sizes = {
             10,
             100,
             1000,
@@ -18,24 +21,27 @@ public class TestingFramework {
             10000000,
     };
 
-    // first is the amount of sorting algorithms
+    // first dimension is the amount of sorting algorithms
     // second is the length of sizes
     // third is an iteration count
     // fourth is the size of an array
     private final int[][][][] minMaxTable;
     private final int[][][][] descendingTable;
     private final int[][][][] almostSortedTable;
+    // fifth is an array with all upper tables
     private final int[][][][][] table;
     private final int iterationCount = 5;
     private final int[] seeds; // seed amount is equal to iterationCount
+    // first dimension - sorting algorithm
+    // second - row of a table, equal to
+    // third - column of a table, equal to iterationCount
     private final double[][][] timeResults;
-    private final Test[] sortingAlgorithms;
+    private final SortingAlgorithm[] sortingAlgorithms;
 
-    TestingFramework(Test[] sortingAlgorithms, int seed) {
+    TestingFramework(SortingAlgorithm[] sortingAlgorithms, int seed) {
 
         this.sortingAlgorithms = sortingAlgorithms;
 
-        // It is possible to control the generator
         Random random = new Random(seed);
 
         seeds = new int[iterationCount];
@@ -49,21 +55,14 @@ public class TestingFramework {
         almostSortedTable = new int[sortingAlgorithms.length][sizes.length][iterationCount][];
         table = new int[][][][][]{minMaxTable, descendingTable, almostSortedTable};
 
-        // first - sorting algorithm
-        // second row of a table
-        // third - column of a table
-        timeResults = new double[sortingAlgorithms.length][3 * sizes.length][iterationCount];
+        // adding 1 to iteration count to write the average value
+        timeResults = new double[sortingAlgorithms.length][3 * sizes.length][iterationCount + 1];
     }
 
     public void test() {
         createMinMaxTable();
         createDescendingTable();
         createAlmostSortedTable();
-
-        for (int i = 0; i < iterationCount; i++) {
-            sortingAlgorithms[0].test(table[0][0][0][i], 1);
-            sortingAlgorithms[0].test(table[0][0][0][i], 1);
-        }
 
         int tableOffset;
 
@@ -76,24 +75,26 @@ public class TestingFramework {
 
                     for (int row = 0; row < sizes.length; row++) {
                         long start = System.nanoTime();
-                        sortingAlgorithms[alg].test(table[tab][alg][row][col], 1);
+                        sortingAlgorithms[alg].sort(table[tab][alg][row][col], 1);
                         long end = System.nanoTime();
 
-                        double timeElapsed = (end - start) / 1000.0;
+                        double timeElapsed = (end - start) / 1000.0; // results are in microseconds
                         timeResults[alg][tableOffset + row][col] = timeElapsed;
                     }
 
                     tableOffset += sizes.length;
-                }
-            }
-        }
+                } //tab
+            }//col
+        } //alg
+
+        calculateAverageTime();
     }
 
     public void printTimeResults() {
         int n = sizes.length;
         for (int row = 0; row < 3 * n; row++) {
             for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
-                for (int col = 0; col < iterationCount; col++) {
+                for (int col = 0; col < iterationCount + 1; col++) {
                     System.out.printf("%10.2f ", timeResults[alg][row][col]);
                 }
                 System.out.print("\t\t");
@@ -101,6 +102,27 @@ public class TestingFramework {
             System.out.println();
             if (row % n == n - 1) System.out.println();
         }
+    }
+
+    private void calculateAverageTime() {
+        int tableOffset = 0;
+        double timeSum;
+
+        for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
+
+            for (int tab = 0; tab < table.length; tab++) {
+
+                for (int row = 0; row < sizes.length; row++) {
+                    timeSum = 0;
+
+                    for (int col = 0; col < iterationCount; col++) {
+                        timeSum += timeResults[alg][tableOffset + row][col];
+                    }
+                    timeResults[alg][tableOffset + row][iterationCount] = timeSum / iterationCount;
+                } //row
+                tableOffset += sizes.length;
+            } //tab
+        } //alg
     }
 
     private void createMinMaxTable() {
@@ -142,7 +164,7 @@ public class TestingFramework {
                         descendingTable[alg][row][col][k] = random.nextInt();
                     }
 
-                    sortingAlgorithms[alg].test(descendingTable[alg][row][col], -1);
+                    sortingAlgorithms[alg].sort(descendingTable[alg][row][col], -1);
 
                 }
             }
@@ -168,7 +190,7 @@ public class TestingFramework {
                         almostSortedTable[alg][row][col][k] = random.nextInt();
                     }
 
-                    sortingAlgorithms[alg].test(almostSortedTable[alg][row][col], -1);
+                    sortingAlgorithms[alg].sort(almostSortedTable[alg][row][col], -1);
 
                     int changeCount = random.nextInt(almostSortedTable[alg][row][col].length / 2) + 2;
 
