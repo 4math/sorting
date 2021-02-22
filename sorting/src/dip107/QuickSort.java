@@ -1,6 +1,6 @@
 package dip107;
 
-public class CountingSort {
+public class QuickSort {
 
     public static void sort(int[] arr) { }
 
