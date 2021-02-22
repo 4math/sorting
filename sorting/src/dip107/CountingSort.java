@@ -1,8 +1,7 @@
 //tut 2 vida sortirovki:
 //1) sort
 //2) modifiedSort
-package dip107;
-public class CountingSort {
+public class CountingSort {	
 	public static void sort (int[] a, int direction) {
 		int i, j, k, n = a.length;
 		int b[] = new int[n];
