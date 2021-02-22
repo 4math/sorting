@@ -1,7 +1,13 @@
 package dip107;
 
-public class CountingSort {
-    public static void sort(int[] arr, int order) {
+public class CountingSort implements SortingAlgorithm{
+
+    @Override
+    public void sort(int[] arr, int order){
+        sortDefault(arr, order);
+    }
+
+    public static void sortDefault(int[] arr, int order) {
         int offset, n = arr.length;
         int[] result = new int[n];
         int[] equal = new int[n];
@@ -15,6 +21,7 @@ public class CountingSort {
                 }
             }
         }
+
         for (int i = 0; i < n; i++) {
             offset = less[i];
             for (int j = 0; j < equal[i]; j++) {
