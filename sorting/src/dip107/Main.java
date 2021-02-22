@@ -1,5 +1,6 @@
 package dip107;
 
+import java.util.Scanner;
 
 public class Main {
 
@@ -63,7 +64,7 @@ public class Main {
                 case 1:
                     break;
                 case 2:
-                    ShakerSort.sort(array);
+                    ShakerSort.sort(array, 0, array.length, 1);
                     break;
                 case 3:
                     break;
