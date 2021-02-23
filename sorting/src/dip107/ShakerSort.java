@@ -2,7 +2,7 @@ package dip107;
 
 import java.util.Comparator;
 
-public class ShakerSort {
+public class ShakerSort implements SortingAlgorithm {
 
     public static Comparator<Integer> ascending = Comparator.naturalOrder();
 
@@ -37,6 +37,7 @@ public class ShakerSort {
         data[b] = temp;
     }
 
+    @Override
     public void sort(int[] data, int order) {
         sort(data, 0, data.length - 1, order);
     }
