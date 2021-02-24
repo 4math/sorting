@@ -1,6 +1,8 @@
 package dip107;
 
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -56,6 +58,7 @@ public class Main {
             System.out.println("1: Hoara method");
             System.out.println("2: Shaker method");
             System.out.println("3: Counting method");
+            System.out.println("4: Modified counting method");
 
             int choice = scanner.nextInt();
 
@@ -63,9 +66,13 @@ public class Main {
                 case 1:
                     break;
                 case 2:
-                    ShakerSort.sort(array);
+                    ShakerSort.sort(array, 0, array.length, 1);
                     break;
                 case 3:
+                    CountingSort.sort(array, 1);
+                    break;
+                case 4:
+                    CountingSort.modifiedSort(array, 1);
                     break;
                 default:
                     return;
