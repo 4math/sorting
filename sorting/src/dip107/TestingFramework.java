@@ -93,7 +93,7 @@ public class TestingFramework {
         calculateAverageTime();
     }
 
-    public void printTimeResults() {
+    public void printTimeResultsCSV() {
         try (PrintWriter writer = new PrintWriter(new File("TestingFramework.csv"))) {
             StringBuilder sb = new StringBuilder();
             int n = sizes.length;
@@ -115,6 +115,20 @@ public class TestingFramework {
         }
         catch (FileNotFoundException e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void printTimeResults() {
+        int n = sizes.length;
+        for (int row = 0; row < 3 * n; row++) {
+            for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
+                for (int col = 0; col < iterationCount + 1; col++) {
+                    System.out.printf("%10.2f ", timeResults[alg][row][col]);
+                }
+                System.out.print("\t\t");
+            }
+            System.out.println();
+            if (row % n == n - 1) System.out.println();
         }
     }
 
