@@ -8,21 +8,11 @@ public class Main {
 
     public static void main(String[] args) {
         boolean fFullTest = false;
-        boolean fTestShaker = false;
-        boolean fTestHoars = false;
-        boolean fTestCounting = false;
+        boolean fOutputMedian = false;
 
         for (String arg : args) {
-            if (arg.compareTo("-fTestShaker") == 0) {
-                fTestShaker = true;
-            }
-
-            if (arg.compareTo("-fTestHoars") == 0) {
-                fTestHoars = true;
-            }
-
-            if (arg.compareTo("-fTestCounting") == 0) {
-                fTestCounting = true;
+            if (arg.compareTo("-fOutputMedian") == 0) {
+                fOutputMedian = true;
             }
 
             if (arg.compareTo("-fFullTest") == 0) {
@@ -30,19 +20,8 @@ public class Main {
             }
         }
 
-        boolean testing = fFullTest || fTestShaker || fTestHoars || fTestCounting;
-        if(testing) {
-            if(fTestShaker || fFullTest) {
+        if(fFullTest) {
 
-            }
-
-            if(fTestHoars || fFullTest) {
-
-            }
-
-            if(fTestCounting || fFullTest) {
-
-            }
         } else {
             Scanner scanner = new Scanner(System.in);
 
@@ -62,6 +41,10 @@ public class Main {
             System.out.println("4: Modified counting method");
 
             int choice = scanner.nextInt();
+            while (choice < 1 || choice > 3) {
+                System.out.println("Choose the sorting method: ");
+                choice = scanner.nextInt();
+            }
 
             switch (choice) {
                 case 1:
