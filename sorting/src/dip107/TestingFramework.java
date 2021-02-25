@@ -94,22 +94,26 @@ public class TestingFramework {
     }
 
     public void printTimeResultsCSV() {
-        try (PrintWriter writer = new PrintWriter(new File("TestingFramework.csv"))) {
+        String names = "size, qseed1, qseed2, qseed3, qseed4, qseed5, qavg, size, cseed1, cseed2, cseed3, " +
+                "cseed4, cseed5, cavg, size, sseed1, sseed2, sseed3, sseed4, sseed5, savg\n";
+        try (PrintWriter writer = new PrintWriter("TestingFramework.csv")) {
             StringBuilder sb = new StringBuilder();
+            sb.append(names);
             int n = sizes.length;
             for (int row = 0; row < 3 * n; row++) {
                 for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
-                    for (int col = 0; col < iterationCount + 1; col++) {
-                        sb.append(String.valueOf(timeResults[alg][row][col]));
-                        sb.append(';');
-                        //System.out.printf("%10.2f ", timeResults[alg][row][col]);
+                    for (int col = 0; col < iterationCount + 2; col++) {
+                        if (col == 0) {
+                            sb.append(sizes[row % sizes.length]);
+                            sb.append(',');
+                        } else {
+                            sb.append(timeResults[alg][row][col - 1]);
+                            sb.append(',');
+                        }
                     }
-                    //System.out.print("\t\t");
                 }
                 sb.append('\n');
-                //System.out.println();
                 if (row % n == n - 1) sb.append('\n');
-                //if (row % n == n - 1) System.out.println();
             }
             writer.write(sb.toString());
         }
@@ -137,7 +141,7 @@ public class TestingFramework {
         double timeSum;
 
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
-
+            tableOffset = 0;
             for (int tab = 0; tab < table.length; tab++) {
 
                 for (int row = 0; row < sizes.length; row++) {

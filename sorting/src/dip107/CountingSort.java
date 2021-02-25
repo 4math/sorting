@@ -39,7 +39,7 @@ public class CountingSort implements SortingAlgorithm{
         }
     }
 
-    public static void modifiedSort(int[] arr, int order) {
+    public static void sortModified(int[] arr, int order) {
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         for (int i = 0; i < arr.length; i++) {
             if (min > arr[i]) {
