@@ -1,5 +1,8 @@
 package dip107;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 interface SortingAlgorithm {
@@ -88,6 +91,31 @@ public class TestingFramework {
         } //alg
 
         calculateAverageTime();
+    }
+
+    public void printTimeResultsCSV() {
+        try (PrintWriter writer = new PrintWriter(new File("TestingFramework.csv"))) {
+            StringBuilder sb = new StringBuilder();
+            int n = sizes.length;
+            for (int row = 0; row < 3 * n; row++) {
+                for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
+                    for (int col = 0; col < iterationCount + 1; col++) {
+                        sb.append(String.valueOf(timeResults[alg][row][col]));
+                        sb.append(';');
+                        //System.out.printf("%10.2f ", timeResults[alg][row][col]);
+                    }
+                    //System.out.print("\t\t");
+                }
+                sb.append('\n');
+                //System.out.println();
+                if (row % n == n - 1) sb.append('\n');
+                //if (row % n == n - 1) System.out.println();
+            }
+            writer.write(sb.toString());
+        }
+        catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void printTimeResults() {
