@@ -23,7 +23,7 @@ public class Main {
             }
         }
 
-        if(fFullTest) {
+        if (fFullTest) {
             SortingAlgorithm[] algorithms = {new QuickSort(), new CountingSort(), new ShakerSort()};
             TestingFramework tf = new TestingFramework(algorithms, 100);
 
@@ -36,53 +36,55 @@ public class Main {
 
             tf.printTimeResults();
             tf.writeTimeResultsToCSV("TimeResults.csv");
-        } else if (fOutputAvg)  {
+        } else if (fOutputAvg) {
 
         } else {
-            Scanner scanner = new Scanner(System.in);
 
-            System.out.print("Enter array element count: ");
-            int count = scanner.nextInt();
+            try {
+                Scanner scanner = new Scanner(System.in);
 
-            int[] array = new int[count];
-            System.out.println("Enter array elements: ");
-            for(int i = 0 ; i < count; i++) {
-                array[i] = scanner.nextInt();
-            }
+                System.out.print("Enter array element count: ");
+                int count = scanner.nextInt();
 
-            System.out.println("Choose the sorting method: ");
-            System.out.println("1: Quicksort method");
-            System.out.println("2: Shaker sort method");
-            System.out.println("3: Counting sort method");
-            System.out.println("4: Modified counting method");
+                int[] array = new int[count];
+                System.out.println("items: ");
+                for (int i = 0; i < count; i++) {
+                    array[i] = scanner.nextInt();
+                }
 
-            int choice = scanner.nextInt();
-            while (choice < 1 || choice > 3) {
                 System.out.println("Choose the sorting method: ");
-                choice = scanner.nextInt();
+                System.out.println("1: Quicksort method");
+                System.out.println("2: Shaker sort method");
+                System.out.println("3: Counting sort method");
+
+                int choice = scanner.nextInt();
+                while (choice < 1 || choice > 3) {
+                    System.out.println("Choose the sorting method: ");
+                    choice = scanner.nextInt();
+                }
+
+                switch (choice) {
+                    case 1:
+                        QuickSort.sort(array, 0, array.length - 1, 1);
+                        break;
+                    case 2:
+                        ShakerSort.sort(array, 0, array.length - 1, 1);
+                        break;
+                    case 3:
+                        CountingSort.sortModified(array, 1);
+                        break;
+                    default:
+                        return;
+                }
+
+                System.out.println("result: ");
+                for (int i = 0; i < count; i++) {
+                    System.out.printf("%d ", array[i]);
+                }
+            } catch (Exception e) {
+                System.out.println("input-output error");
             }
 
-            switch (choice) {
-                case 1:
-                    QuickSort.sort(array, 0, array.length - 1, 1);
-                    break;
-                case 2:
-                    ShakerSort.sort(array, 0, array.length - 1, 1);
-                    break;
-                case 3:
-//                    CountingSort.sort(array, 1);
-                    CountingSort.sortModified(array, 1);
-                    break;
-                case 4:
-                    break;
-                default:
-                    return;
-            }
-
-            for (int i = 0; i < count; i++) {
-                System.out.printf("%d ", array[i]);
-            }
         }
-
     }
 }
