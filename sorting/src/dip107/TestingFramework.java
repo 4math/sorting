@@ -19,7 +19,6 @@ public class TestingFramework {
             1000,
             10000,
             30000,
-//            50000,
     };
 
     // first dimension is the amount of sorting algorithms
@@ -85,7 +84,7 @@ public class TestingFramework {
 
                     tableOffset += sizes.length;
                 } //tab
-            }//col
+            } //col
         } //alg
 
         calculateAverageTime();
@@ -106,6 +105,34 @@ public class TestingFramework {
                             sb.append(',');
                         } else {
                             sb.append(timeResults[alg][row][col - 1]);
+                            sb.append(',');
+                        }
+                    }
+                }
+                sb.append('\n');
+                if (row % n == n - 1) sb.append('\n');
+            }
+            writer.write(sb.toString());
+        }
+        catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void writeAvgResultsToCSV(String filename) {
+        String names = "size, qavg, size, cavg, size, savg\n";
+        try (PrintWriter writer = new PrintWriter("data/" + filename)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(names);
+            int n = sizes.length;
+            for (int row = 0; row < 3 * n; row++) {
+                for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
+                    for (int col = 0; col < 2; col++) {
+                        if (col == 0) {
+                            sb.append(sizes[row % n]);
+                            sb.append(',');
+                        } else {
+                            sb.append(timeResults[alg][row][iterationCount]);
                             sb.append(',');
                         }
                     }
