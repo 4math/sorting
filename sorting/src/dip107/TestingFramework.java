@@ -18,8 +18,8 @@ public class TestingFramework {
             100,
             1000,
             10000,
-            100000,
-            1000000,
+            30000,
+//            50000,
     };
 
     // first dimension is the amount of sorting algorithms

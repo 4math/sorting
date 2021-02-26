@@ -7,38 +7,6 @@ public class CountingSort implements SortingAlgorithm{
         sortModified(arr, order);
     }
 
-    public static void sortDefault(int[] arr, int order) {
-        int offset, n = arr.length;
-        int[] result = new int[n];
-        int[] equal = new int[n];
-        int[] less = new int[n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (arr[i] == arr[j]) {
-                    equal[i]++;
-                } else if (arr[i] > arr[j]) {
-                    less[i]++;
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            offset = less[i];
-            for (int j = 0; j < equal[i]; j++) {
-                result[offset + j] = arr[i];
-            }
-        }
-        if (order == 1) {
-            for (int i = 0; i < n; i++) {
-                arr[i] = result[i];
-            }
-        } else {
-            for (int i = 0; i < n; i++) {
-                arr[n - i - 1] = result[i];
-            }
-        }
-    }
-
     public static void sortModified(int[] arr, int order) {
         int min = Integer.MAX_VALUE / 2, max = Integer.MIN_VALUE / 2;
         for (int i = 0; i < arr.length; i++) {
