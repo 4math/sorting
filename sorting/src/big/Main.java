@@ -41,7 +41,7 @@ public class Main {
             try {
                 Scanner scanner = new Scanner(System.in);
 
-                System.out.print("Enter array element count: ");
+                System.out.print("count: ");
                 int count = scanner.nextInt();
 
                 int[] array = new int[count];
@@ -222,9 +222,6 @@ class ShakerSort implements SortingAlgorithm {
         sort(data, 0, data.length - 1, order);
     }
 }
-
-
-
 
 interface SortingAlgorithm {
     //order:
