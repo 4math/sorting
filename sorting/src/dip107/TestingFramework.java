@@ -1,6 +1,5 @@
 package dip107;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Random;
@@ -21,7 +20,6 @@ public class TestingFramework {
             10000,
             100000,
             1000000,
-            10000000,
     };
 
     // first dimension is the amount of sorting algorithms
@@ -62,10 +60,10 @@ public class TestingFramework {
         timeResults = new double[sortingAlgorithms.length][3 * sizes.length][iterationCount + 1];
     }
 
-    public void test() {
-        createMinMaxTable();
-        createDescendingTable();
-        createAlmostSortedTable();
+    public void test(int border) {
+        createMinMaxTable(border);
+        createDescendingTable(border);
+        createAlmostSortedTable(border);
 
         int tableOffset;
 
@@ -93,10 +91,10 @@ public class TestingFramework {
         calculateAverageTime();
     }
 
-    public void printTimeResultsCSV() {
+    public void writeTimeResultsToCSV(String filename) {
         String names = "size, qseed1, qseed2, qseed3, qseed4, qseed5, qavg, size, cseed1, cseed2, cseed3, " +
                 "cseed4, cseed5, cavg, size, sseed1, sseed2, sseed3, sseed4, sseed5, savg\n";
-        try (PrintWriter writer = new PrintWriter("TestingFramework.csv")) {
+        try (PrintWriter writer = new PrintWriter("data/" + filename)) {
             StringBuilder sb = new StringBuilder();
             sb.append(names);
             int n = sizes.length;
@@ -137,7 +135,7 @@ public class TestingFramework {
     }
 
     private void calculateAverageTime() {
-        int tableOffset = 0;
+        int tableOffset;
         double timeSum;
 
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
@@ -157,7 +155,7 @@ public class TestingFramework {
         } //alg
     }
 
-    private void createMinMaxTable() {
+    private void createMinMaxTable(int border) {
         // first of all, iterate through rows (one seed), then through columns, creating an array with specific size
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
 
@@ -171,7 +169,11 @@ public class TestingFramework {
                     minMaxTable[alg][row][col] = new int[sizes[row]];
 
                     for (int k = 0; k < sizes[row]; k++) {
-                        minMaxTable[alg][row][col][k] = random.nextInt();
+                        if (border != 0) {
+                            minMaxTable[alg][row][col][k] = random.nextInt(2 * border + 1) - border;
+                        } else {
+                            minMaxTable[alg][row][col][k] = random.nextInt();
+                        }
                     }
 
                 }
@@ -179,7 +181,7 @@ public class TestingFramework {
         }
     }
 
-    private void createDescendingTable() {
+    private void createDescendingTable(int border) {
         // first of all, iterate through rows (one seed), then through columns, creating an array with specific size
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
 
@@ -193,10 +195,15 @@ public class TestingFramework {
                     descendingTable[alg][row][col] = new int[sizes[row]];
 
                     for (int k = 0; k < sizes[row]; k++) {
-                        descendingTable[alg][row][col][k] = random.nextInt();
+                        if (border != 0) {
+                            descendingTable[alg][row][col][k] = random.nextInt(2 * border + 1) - border;
+                        } else {
+                            descendingTable[alg][row][col][k] = random.nextInt();
+                        }
                     }
 
-                    sortingAlgorithms[alg].sort(descendingTable[alg][row][col], -1);
+                    QuickSort.sort(descendingTable[alg][row][col], 0,
+                            descendingTable[alg][row][col].length - 1, -1);
 
                 }
             }
@@ -205,7 +212,7 @@ public class TestingFramework {
     }
 
 
-    private void createAlmostSortedTable() {
+    private void createAlmostSortedTable(int border) {
         // first of all, iterate through rows (one seed), then through columns, creating an array with specific size
         for (int alg = 0; alg < sortingAlgorithms.length; alg++) {
 
@@ -219,15 +226,25 @@ public class TestingFramework {
                     almostSortedTable[alg][row][col] = new int[sizes[row]];
 
                     for (int k = 0; k < sizes[row]; k++) {
-                        almostSortedTable[alg][row][col][k] = random.nextInt();
+                        if (border != 0) {
+                            almostSortedTable[alg][row][col][k] = random.nextInt(2 * border + 1) - border;
+                        } else {
+                            almostSortedTable[alg][row][col][k] = random.nextInt();
+                        }
                     }
 
-                    sortingAlgorithms[alg].sort(almostSortedTable[alg][row][col], -1);
+                    QuickSort.sort(almostSortedTable[alg][row][col], 0,
+                            almostSortedTable[alg][row][col].length - 1, -1);
 
                     int changeCount = random.nextInt(almostSortedTable[alg][row][col].length / 2) + 2;
 
                     for (int i = 0; i < changeCount; i++) {
-                        int number = random.nextInt();
+                        int number;
+                        if (border != 0) {
+                            number = random.nextInt( 2 * border + 1) - border;
+                        } else {
+                            number = random.nextInt();
+                        }
                         int index = random.nextInt(almostSortedTable[alg][row][col].length);
                         almostSortedTable[alg][row][col][index] = number;
                     }

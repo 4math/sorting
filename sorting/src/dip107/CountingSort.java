@@ -4,7 +4,7 @@ public class CountingSort implements SortingAlgorithm{
 
     @Override
     public void sort(int[] arr, int order){
-        sortDefault(arr, order);
+        sortModified(arr, order);
     }
 
     public static void sortDefault(int[] arr, int order) {
@@ -40,7 +40,7 @@ public class CountingSort implements SortingAlgorithm{
     }
 
     public static void sortModified(int[] arr, int order) {
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE / 2, max = Integer.MIN_VALUE / 2;
         for (int i = 0; i < arr.length; i++) {
             if (min > arr[i]) {
                 min = arr[i];

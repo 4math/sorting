@@ -9,11 +9,14 @@ public class Main {
         TestingFramework tf = new TestingFramework(algorithms, 100);
 
         for (int i = 0; i < 3; i++) {
-            tf.test();
+            long start = System.nanoTime();
+            tf.test(100000);
+            long end = System.nanoTime();
+            System.out.println("Test " + i + " has finished in " + (end - start));
         }
 
         tf.printTimeResults();
-        tf.printTimeResultsCSV();
+        tf.writeTimeResultsToCSV("TimeResults.csv");
 
         boolean fFullTest = false;
         boolean fTestShaker = false;
