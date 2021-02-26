@@ -47,7 +47,7 @@ public class TestingFramework {
         seeds = new int[iterationCount];
         for (int i = 0; i < seeds.length; i++) {
             seeds[i] = random.nextInt();
-            System.out.printf("Seed #%d: %d%n", i, seeds[i]);
+//            System.out.printf("Seed #%d: %d%n", i, seeds[i]);
         }
 
         minMaxTable = new int[sortingAlgorithms.length][sizes.length][iterationCount][];
