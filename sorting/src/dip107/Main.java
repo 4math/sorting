@@ -22,22 +22,15 @@ public class Main {
                 fFullTest = true;
             }
         }
+        SortingAlgorithm[] algorithms = {new QuickSort(), new CountingSort(), new ShakerSort()};
+        TestingFramework tf = new TestingFramework(algorithms, 100);
 
         if (fFullTest) {
-            SortingAlgorithm[] algorithms = {new QuickSort(), new CountingSort(), new ShakerSort()};
-            TestingFramework tf = new TestingFramework(algorithms, 100);
-
-            for (int i = 0; i < 3; i++) {
-                long start = System.nanoTime();
-                tf.test(100000);
-                long end = System.nanoTime();
-                System.out.println("Test " + i + " has finished in " + (end - start));
-            }
-
-            tf.printTimeResults();
+            test(tf, 100);
             tf.writeTimeResultsToCSV("TimeResults.csv");
         } else if (fOutputAvg) {
-
+            test(tf, 100);
+            tf.writeAvgResultsToCSV("AvgResults.csv");
         } else {
 
             try {
@@ -86,5 +79,15 @@ public class Main {
             }
 
         }
+    }
+
+    private static void test(TestingFramework tf, int border) {
+        for (int i = 0; i < 3; i++) {
+            long start = System.nanoTime();
+            tf.test(border);
+            long end = System.nanoTime();
+            System.out.println("Test " + i + " has finished in " + (end - start) / 10e6);
+        }
+        tf.printTimeResults();
     }
 }
