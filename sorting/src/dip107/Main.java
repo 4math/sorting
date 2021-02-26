@@ -36,6 +36,8 @@ public class Main {
 
             tf.printTimeResults();
             tf.writeTimeResultsToCSV("TimeResults.csv");
+        } else if (fOutputAvg)  {
+
         } else {
             Scanner scanner = new Scanner(System.in);
 
