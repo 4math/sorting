@@ -2,11 +2,19 @@ package dip107;
 
 import java.util.Scanner;
 
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
+        SortingAlgorithm[] algorithms = {new QuickSort(), new CountingSort(), new ShakerSort()};
+        TestingFramework tf = new TestingFramework(algorithms, 100);
+
+        for (int i = 0; i < 3; i++) {
+            tf.test();
+        }
+
+        tf.printTimeResults();
+        tf.printTimeResultsCSV();
+
         boolean fFullTest = false;
         boolean fOutputMedian = false;
 
@@ -53,10 +61,10 @@ public class Main {
                     ShakerSort.sort(array, 0, array.length, 1);
                     break;
                 case 3:
-                    CountingSort.sort(array, 1);
+//                    CountingSort.sort(array, 1);
                     break;
                 case 4:
-                    CountingSort.modifiedSort(array, 1);
+                    CountingSort.sortModified(array, 1);
                     break;
                 default:
                     return;
