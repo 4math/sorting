@@ -5,7 +5,7 @@ Project is built using Intellij IDEA 2020.
 
 # Project structure
 
-- [data](./data) folder contains Excel with test results.
+- [data](./data) folder contains CSV files with test results.
 - [slides](.slides) folder contains presentation slides (in Latvian).
 - [sorting/src/dip107](./sorting/src/dip107) folder contains all the source files:
   - [CountingSort.java](./sorting/src/dip107/CountingSort.java) - a class which holds counting sort algorithm implementation.
