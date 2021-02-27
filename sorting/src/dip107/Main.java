@@ -26,10 +26,10 @@ public class Main {
         TestingFramework tf = new TestingFramework(algorithms, 100);
 
         if (fFullTest) {
-            test(tf, 100);
+            test(tf, 1000);
             tf.writeTimeResultsToCSV("TimeResults.csv");
         } else if (fOutputAvg) {
-            test(tf, 100);
+            test(tf, 1000);
             tf.writeAvgResultsToCSV("AvgResults.csv");
         } else {
 

@@ -16,8 +16,11 @@ public class TestingFramework {
     private final int[] sizes = {
             10,
             100,
+            500,
             1000,
+            5000,
             10000,
+            20000,
             30000,
     };
 
