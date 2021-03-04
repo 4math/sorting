@@ -18,13 +18,15 @@ Project is built using Intellij IDEA 2020.
 
 | Argument     | Description                                                  |
 | ------------ | ------------------------------------------------------------ |
-| -ffull       | Tests sorting algorithms and writes results from all testing runs and average results to a CSV file. |
-| -fmedian     | Tests sorting algorithms and writes average time results to a CSV file. |
-| no arguments | Program runs in a default mode. Input menu is shown, where sorting method can be chosen and array elements can be given. |
+| -fFullTest   | Tests sorting algorithms and writes results from all testing runs and average results to a CSV file. |
+| -fOutputAvg  | Tests sorting algorithms and writes average time results to a CSV file. |
+| no arguments | Program runs in a default mode. Input menu is shown, where sorting method can be chosen and array elements can be written. |
 
 # Conclusions
 
-
+- **Quicksort** is a quite fast sorting algorithm, even with 10 million elements it was able to perform in 2 seconds. However, it is crucial to choose correct pivot.
+- **Counting sort** is the fastest sorting algorithm of the tested ones. It was able to perform in 17 milliseconds to sort an array with 10 million entries. However, this algorithm can be used only with integers and it takes quite a lot of memory space to perform a sorting operation.
+- **Shaker sort** is the slowest algorithm, since its big O is n^2. We do not recommend to use it in practice. 
 
 # Contributions
 
